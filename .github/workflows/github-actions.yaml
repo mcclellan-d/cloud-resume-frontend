@@ -34,4 +34,4 @@ jobs:
         aws s3 sync ./website ${{ secrets.S3_BUCKET }} --delete
     - name: Create Cache Invalidation
       run: |
-        aws cloudfront create-invalidation --distribution-id ${{ env.cloudfront_distribution }} --paths "/*"
+        aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION }} --paths "/*"
