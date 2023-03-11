@@ -14,20 +14,21 @@ on:
 
 jobs:
   deploy:
-  name: Upload to Amazon S3
-  runs-on: ubuntu-latest
-  # Permissions needed to interact with GitHub OIDC Token endpoint
-  permissions:
-    id-token: write
-    contents: read
-  steps:
-  - name: Checkout
-    use: actions/checkout@v3
-  - name: Configure AWS credentials from Production account
-    uses: aws-actions/configure-aws-credentials@v2
-    with:
-      role-to-assume: ${{ secrets.ROLE_ARN }}
-      aws-region: ${{ env.AWS_REGION }}
-  - name: Copy files to the production website with the AWS CLI
-    run: |
-      aws s3 sync ./website ${{ secrets.S3_BUCKET }} --delete
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    environment: production
+    # Permissions needed to interact with GitHub OIDC Token endpoint
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      use: actions/checkout@v3
+    - name: Configure AWS credentials from Production account
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets.ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
+    - name: Copy files to the production website with the AWS CLI
+      run: |
+        aws s3 sync ./website ${{ secrets.S3_BUCKET }} --delete
