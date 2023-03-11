@@ -32,3 +32,6 @@ jobs:
     - name: Copy files to the production website with the AWS CLI
       run: |
         aws s3 sync ./website ${{ secrets.S3_BUCKET }} --delete
+    - name: Create Cache Invalidation
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ env.cloudfront_distribution }} --paths "/*"
